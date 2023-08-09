@@ -739,11 +739,10 @@ class VideoUploader(AsyncEvent):
 
         try:
             params = {"csrf": self.credential.bili_jct}
-            data = json.dumps(meta)
             headers = {"content-type": "application/json"}
-            resp = await Api(**api, credential=self.credential, no_csrf=True
+            resp = await Api(**api, credential=self.credential, no_csrf=True, json_body=True
                              ).update_params(**params
-                                             ).update_data(**data
+                                             ).update_data(**meta
                                                            ).update_headers(**headers).result
             self.dispatch(VideoUploaderEvents.AFTER_SUBMIT.value, resp)
             return resp
